@@ -16,7 +16,7 @@ app.post("/messages", (req, res) => {
   const data = req.body;
   const hash = message.hashMessage(JSON.stringify(data));
   const digest = {
-    "digest": hash
+    digest: hash
   };
   res.send(digest);
 });
