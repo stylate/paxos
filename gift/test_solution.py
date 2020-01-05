@@ -41,6 +41,18 @@ class TestGift(unittest.TestCase):
         expected = "Not possible"
         actual = output(find_gifts(prices, balance))
         self.assertEqual(actual, expected)
+
+        prices = [('a', 1)]
+        balance = 1
+        expected = "Not possible"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+        prices = [('a', 100), ('b', 123)]
+        balance = 95
+        expected = "Not possible"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
     
     def test_duplicates_equal(self):
         prices = [('a', 1), ('b', 1), ('c', 1), ('d', 1)]
