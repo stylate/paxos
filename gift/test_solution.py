@@ -13,5 +13,17 @@ class TestGift(unittest.TestCase):
         actual = output(find_gifts(prices, balance))
         self.assertEqual(actual, expected)
 
+        balance = 10000
+        expected = "Earmuffs 2000, Bluetooth Stereo 6000"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+        balance = 1100
+        expected = "Not possible"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+    
+
 if __name__ == '__main__':
     unittest.main()
