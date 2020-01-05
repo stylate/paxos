@@ -10,3 +10,9 @@ test('return error msg', () => {
     const input = "foo";
     expect(message.retrieveMessage("aaaaaaaaaaaaa")).not.toBe(input);
 })
+
+test('advanced cases', () => {
+    const input = "!#*&@(#@#@O";
+    const hash = message.hashMessage(input);
+    expect(message.retrieveMessage(hash)).toBe(input);
+})
