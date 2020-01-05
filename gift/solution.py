@@ -6,16 +6,18 @@ def find_gifts(prices, balance):
     Finds two distinct gifts given PRICES whose sum is minimally 
     under (or equal to) the gift card balance.
     '''
+    if len(prices) < 2: # more than two gifts required
+        return None 
     left, right = 0, len(prices) - 1
     optimal = []
     min_diff = float('inf')
     while left < right:
-        print("left item: ", prices[left])
-        print("right item: ", prices[right])
+        #print("left item: ", prices[left])
+        #print("right item: ", prices[right])
         sum_prices = prices[left][1] + prices[right][1]
         if sum_prices < balance:
             leftover = balance - sum_prices # how much funds are leftover. guaranteed to be > 0
-            print("leftover: ", leftover)
+            #print("leftover: ", leftover)
             if leftover < min_diff:
                 min_diff = leftover
                 optimal = [prices[left], prices[right]]
@@ -24,7 +26,7 @@ def find_gifts(prices, balance):
             return [prices[left], prices[right]]
         else:
             right -= 1
-        print("\n")
+        #print("\n")
     return optimal
 
 def output(gifts):

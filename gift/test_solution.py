@@ -23,7 +23,45 @@ class TestGift(unittest.TestCase):
         actual = output(find_gifts(prices, balance))
         self.assertEqual(actual, expected)
 
+    def test_multiple(self):
+        prices = [('a', 1), ('b', 2), ('c', 9), ('d', 10)]
+        balance = 11
+        expected = "a 1, d 10"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+        balance = 12
+        expected = "b 2, d 10"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+    def test_fail(self):
+        prices = []
+        balance = 0
+        expected = "Not possible"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
     
+    def test_duplicates_equal(self):
+        prices = [('a', 1), ('b', 1), ('c', 1), ('d', 1)]
+        balance = 2
+        expected = "a 1, d 1"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+    def test_duplicates_unequal(self):
+        prices = [('a', 1), ('b', 1), ('c', 1), ('d', 1)]
+        balance = 3
+        expected = "a 1, d 1"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+    def test_duplicates_failure(self):
+        prices = [('a', 1), ('b', 1), ('c', 1), ('d', 1)]
+        balance = 1
+        expected = "Not possible"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
 
 if __name__ == '__main__':
     unittest.main()
