@@ -3,7 +3,7 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 var app = express();
 
-// initialization
+// initialization - for scalability, use mongodb to represent our (key, value) storage instead of a hashmap.
 app.listen(8080, () => {
   console.log("Server running on port 8080.");
 });
