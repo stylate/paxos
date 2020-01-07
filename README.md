@@ -34,14 +34,14 @@ docker-machine env default
 eval "$(docker-machine env default)"
 ```
 
-We can now run our container! Input the following commands in one terminal window:
+We can now run our container! Change your working directory to `message-service` and input the following commands in one terminal window:
 
 ```
 docker-compose build
 docker-compose up
 ```
 
-Our docker container by default will now be accessible through the following endpoint `http://192.168.99.100:8080/`, or whatever is the default IP address. 
+Our docker container by default will now be accessible through the following endpoint: `http://192.168.99.100:8080/`. Your machine's IP address/URL may be different, however. You should double check by running `docker-machine ls`. The port `8080` will always be exposed due to the Dockerfile in place.
 
 ### Usage
 
@@ -135,6 +135,12 @@ Detergent, 1000
 Headphones, 1400
 Earmuffs, 2000
 Bluetooth Stereo, 6000
+```
+
+An example input should be `python solution.py inputs/prices.txt 10000`. An example output would appear as:
+
+```
+Earmuffs 2000, Bluetooth Stereo 6000
 ```
 
 For testing, run `test_solution.py` by entering the command `python test_solution.py`. 
