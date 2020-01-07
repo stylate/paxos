@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import sys
 
 def find_gifts(prices, balance):
