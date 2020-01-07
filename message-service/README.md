@@ -102,11 +102,11 @@ Connection: keep-alive
 
 The bottlenecks in my application as I acquire more users would most definitely be involving concurrency. For instance, what if we had an extremely large amount of users who all perform `POST` requests, especially with large messages? Clearly, our current local application would fail at successfully fulfilling all of these requests, especially if these requests contain large messages/JSON objects. This is due to our object `digests` becoming too big (which is represented as a dictionary).
 
-In order to adjust for these worst-case scenarios, the database that stores all of the hashes and original messages should be routed to a NoSQL database, like Redis or DynamoDB. We can also implement an LRU cache in order to evict messages that previously weren't retrieved through a `GET` request if we want to go the extra mile in the scenario that we have _*too*_ many messages being stored. 
+In order to adjust for these worst-case scenarios, the database that stores all of the hashes and original messages should be routed to a NoSQL database, like Redis or DynamoDB. We can also implement an LRU cache in order to evict messages that weren't recently retrieved through a `GET` request if we want to go the extra mile in the scenario that we have _*too*_ many messages being stored. 
 
 Furthermore, if a said message `m` was particularly large in question, say 200 MB+, we could also house the original message in another database (although this is optional). To better illustrate this idea, we have one database that stores the hashes as the key and an encrypted message of length 32 as the value. This value can then be used as a key to access the original message in another database. 
 
-This ensures that our messages are tightly secured (although this extra layer of indirection is _*entirely*_ optional) and that we can account for the hypothesis that a large amount of users would be concurrently sending in messages with extremely large amounts of data. Our NoSQL database(s) would also be presumably ACID compliant.
+This ensures that our messages are more secure (although this extra layer of indirection is _*entirely*_ optional) and that we can account for the hypothesis that a large amount of users would be concurrently sending in messages with extremely large amounts of data. Our NoSQL database(s) would also be presumably ACID compliant.
 
 ### Deployment
 
