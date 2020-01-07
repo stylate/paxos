@@ -1,0 +1,4 @@
+simple, 1
+abc, 500
+def, 1000
+candy, 99999

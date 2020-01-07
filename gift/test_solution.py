@@ -36,6 +36,18 @@ class TestGift(unittest.TestCase):
         actual = output(find_gifts(prices, balance))
         self.assertEqual(actual, expected)
 
+    def test_exhaustive(self):
+        prices = [('simple', 1), ('abc', 500), ('def', 1000), ('candy', 99999)]
+        balance = 99999
+        expected = "abc 500, def 1000"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
+        balance = 100000
+        expected = "simple 1, candy 99999"
+        actual = output(find_gifts(prices, balance))
+        self.assertEqual(actual, expected)
+
     def test_fail(self):
         prices = []
         balance = 0
