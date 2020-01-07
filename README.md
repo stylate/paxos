@@ -2,7 +2,7 @@
 
 ## Question 1 - Message Service
 
-The service is created as a Node.js/Express server deployed onto a Docker container. 
+The service is created as a Node.js/Express application deployed onto a Docker container. 
 
 ### Concept
 
@@ -10,7 +10,7 @@ This application is a simple message service that acts as a key-value store with
 
 ### Setup
 
-The dependencies used in this application are: express, crypto (built-in Node), body-parser, jest, and cors. In the docker image, these dependencies should already have been installed. We should have docker and docker-compose installed as well!
+The dependencies used in this application are: express, crypto (built-in Node), body-parser, jest, and cors. In the docker image, these dependencies should already have been installed. We should have docker, docker-machine, and docker-compose installed as well!
 
 #### Local
 
@@ -20,18 +20,28 @@ However, if you _*are*_ interested in running the code locally, consider the fol
 npm install
 npm run start
 ```
-The service's functionality is tested through Jest in the file `message.test.js`, and can be run through `npm run test`. The following test cases are meant to test the service through HTTP rather than functionality.
+The service's functionality is tested through Jest in the file `message.test.js`, and can be run through `npm run test`. The  test cases in the section *Usage* are meant to test the service through HTTP rather than functionality.
 
 #### Docker
 
-Since this service is deployed into a Docker container, all we need to do is start the container and input the following commands in one terminal:
+As previously mentioned, we should have docker, docker-machine, and docker-compose installed already. We'll be using a local VM with a docker machine for this service. 
+
+If we already don't have a machine running, run the follow commands to create a default VirtualBox VM.
 
 ```
-docker build -t messages .
+docker-machine create --driver virtualbox default
+docker-machine env default
+eval "$(docker-machine env default)"
+```
+
+We can now run our container! Input the following commands in one terminal window:
+
+```
+docker-compose build
 docker-compose up
 ```
 
-Our docker container by default will now be accessible through the following endpoint `http://192.168.99.100:8080/`.
+Our docker container by default will now be accessible through the following endpoint `http://192.168.99.100:8080/`, or whatever is the default IP address. 
 
 ### Usage
 
