@@ -6,6 +6,14 @@ test('basic functionality: we should get the original message after hashing', ()
     expect(message.retrieveMessage(hash)).toBe(input);
 })
 
+test('basic functionality with JSON object (string)', () => {
+    const input = `{
+        "message": "foo"
+    }`;
+    const hash = message.hashMessage(input);
+    expect(message.retrieveMessage(hash)).toBe(input);
+})
+
 test('return error msg', () => {
     const input = "foo";
     expect(message.retrieveMessage("aaaaaaaaaaaaa")).not.toBe(input);
