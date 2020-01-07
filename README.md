@@ -102,15 +102,17 @@ Connection: keep-alive
 
 ### Scaling
 
-The bottlenecks in my application as I acquire more users would most definitely be involving concurrency. For instance, what if we had an extremely large amount of users who all perform `POST` requests, especially with large messages? Clearly, our current local application would fail at successfully fulfilling all of these requests, especially if these requests contain large messages/JSON objects.
+The bottlenecks in my application as I acquire more users would most definitely be involving concurrency. For instance, what if we had an extremely large amount of users who all perform `POST` requests, especially with large messages? Clearly, our current local application would fail at successfully fulfilling all of these requests, especially if these requests contain large messages/JSON objects. This is due to our object `digests` becoming too big (which is represented as a dictionary).
 
-In order to adjust for these worst-case scenarios, the database that stores all of the hashes and original messages should be routed to a NoSQL database, like Redis or DynamoDB. Furthermore, if a said message `m` was particularly large in question, say 512 MB+, we should also house the original message in another database. To better illustrate this idea, we have one database that stores the hashes as the key and an encrypted message of length 32 as the value. This value can then be used as a key to access the original message in another database. 
+In order to adjust for these worst-case scenarios, the database that stores all of the hashes and original messages should be routed to a NoSQL database, like Redis or DynamoDB. We can also implement an LRU cache in order to evict messages that previously weren't retrieved through a `GET` request if we want to go the extra mile in the scenario that we have _*too*_ many messages being stored. 
 
-This ensures that our messages are tightly secured and that we can account for the hypothesis that a large amount of users would be concurrently sending in messages with extremely large amounts of data. Our NoSQL database(s) would also be presumably ACID compliant.
+Furthermore, if a said message `m` was particularly large in question, say 200 MB+, we could also house the original message in another database (although this is optional). To better illustrate this idea, we have one database that stores the hashes as the key and an encrypted message of length 32 as the value. This value can then be used as a key to access the original message in another database. 
+
+This ensures that our messages are tightly secured (although this extra layer of indirection is _*entirely*_ optional) and that we can account for the hypothesis that a large amount of users would be concurrently sending in messages with extremely large amounts of data. Our NoSQL database(s) would also be presumably ACID compliant.
 
 ### Deployment
 
-Currently, how our application is deployed is through a Docker container through the command line. But what if we want this application to be maintained in the long term? We can consider placing this application, along with its databases (assuming we scale with a NoSQL database) and dependencies in a Kubernetes cluster to ensure that this message service stays running for an indefinite period of time. This also guarantees that our service can be self-sufficient; that is, updates are readily available without downtime and recovery is possible in case of failure.
+Currently, how our application is deployed is through a Docker container. But what if we want this application to be maintained in the long term? We can consider placing this application, along with its databases (assuming we scale with NoSQL) and dependencies in a Kubernetes cluster to ensure that this message service stays running for an indefinite period of time. This also guarantees that our service can be self-sufficient; that is, updates are readily available without downtime and recovery is possible in case of failure.
 
 ## Question 2 - Gift Purchasing
 
@@ -149,10 +151,11 @@ For testing, run `test_solution.py` by entering the command `python test_solutio
 
 Our following assumptions are as follows:
 
-- Every item is unique in its identifier (prices can be non-unique) and sorted by price.
+- Every item is unique in its identifier (prices can be non-unique).
+- Our input list is sorted by price.
 - We can only buy one of each item.
-- An item's price is strictly positive.
-- Our input file is well-formed (each line follows the structure "<Unique Identifier>, <Price>").
+- An item's price is a strictly positive integer.
+- Our input file is well-formed (each line follows the structure "(Unique Identifier), (Price)").
 
 Recall that our list is sorted by price, and that we want to maximize the balance given in our gift card. To do this, we use a two-pointer approach with the pointers `left` and `right` such that `left` points to the first index and `right` points to the last index of our array `prices`. For *simplicity* of explanation, consider `prices` to be an array of item costs (without keeping in mind of the unique identifier). In order to retrieve the _*optimal*_ output, we set a variable `min_diff` to infinity. This will be explained in the next paragraph.
 
