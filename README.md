@@ -129,18 +129,18 @@ For testing, run `test_solution.py` by entering the command `python test_solutio
 
 Our following assumptions are as follows:
 
-    * Every item is unique in its identifier (prices can be non-unique) and sorted by price.
-    * We can only buy one of each item.
-    * An item's price is strictly positive.
-    * Our input file is well-formed (each line follows the structure "<Unique Identifier>, <Price>").
+    - Every item is unique in its identifier (prices can be non-unique) and sorted by price.
+    - We can only buy one of each item.
+    - An item's price is strictly positive.
+    - Our input file is well-formed (each line follows the structure "<Unique Identifier>, <Price>").
 
 Recall that our list is sorted by price, and that we want to maximize the balance given in our gift card. To do this, we use a two-pointer approach with the pointers `left` and `right` such that `left` points to the first index and `right` points to the last index of our array `prices`. For *simplicity* of explanation, consider `prices` to be an array of item costs (without keeping in mind of the unique identifier). In order to retrieve the _*optimal*_ output, we set a variable `min_diff` to infinity. This will be explained in the next paragraph.
 
 We thus approach this problem in a case-by-case analysis. Let `sum_prices` be the sum of our "left" item's price and our "right" item's price. In technical terms, we set `sum_prices = prices[left] + prices[right]`, and our balance `b`. We enter one of the three following cases until our two pointers meet:
 
-    * Case 1: `sum_prices < b`. We would have some balance leftover if we were to purchase the items pointed by `left` and `right`. However, we are not so sure if this is our _*best*_ option. Let our variable `leftover` be `b - sum_prices`. Recall that we have the variable `min_diff`. The smaller the difference, the more we used up of our gift card. This is our ideal situation, so we check if `leftover < min_diff`. If so, then we have a currently optimal combination of gifts.
-    * Case 2: `sum_prices == b`. We can immediately end our algorithm in this scenario; we have fully maximized our gift card balance with the current left and right items. This is what we should get for our two friends with the gift card.
-    * Case 3: `sum_prices > b`. Decrement the right pointer by one. In the next iteration, `sum_prices` may decrease as a result of the sorted property in `prices`.
+    - Case 1: `sum_prices < b`. We would have some balance leftover if we were to purchase the items pointed by `left` and `right`. However, we are not so sure if this is our _*best*_ option. Let our variable `leftover` be `b - sum_prices`. Recall that we have the variable `min_diff`. The smaller the difference, the more we used up of our gift card. This is our ideal situation, so we check if `leftover < min_diff`. If so, then we have a currently optimal combination of gifts.
+    - Case 2: `sum_prices == b`. We can immediately end our algorithm in this scenario; we have fully maximized our gift card balance with the current left and right items. This is what we should get for our two friends with the gift card.
+    - Case 3: `sum_prices > b`. Decrement the right pointer by one. In the next iteration, `sum_prices` may decrease as a result of the sorted property in `prices`.
 
 By the time the while loop ends (the two points meet), we would have had our optimal combination of gifts (or no combination).
 
